@@ -10,15 +10,15 @@ esphome:
   # This will allow for (future) project identification,
   # configuration and updates.
   project:
-    name: koenvervloesem.m5stack-air-quality-kit
+    name: mataresian.m5stack-air-quality-kit-SHT3x
     version: "1.0"
 
   libraries:
     - "Wire"
-    - "uFire SHT20"
+    - "uFire SHT3x"
     - "ArduinoJson"
   includes:
-    - include/sht20.h
+    - include/sht30.h
 
 esp32:
   board: m5stack-core-esp32
@@ -36,7 +36,7 @@ ota:
 
 # This should point to the public location of this yaml file.
 dashboard_import:
-  package_import_url: github://koenvervloesem/M5Stack-Air-Quality-ESPHome/m5stack-air-quality-kit.yaml@main
+  package_import_url: github://mataresian/M5Stack-Air-Quality-ESPHome/m5stack-air-quality-kit-SHT3x.yaml@main
 
 wifi:
   # Set up a Wi-Fi access point using the device name above
@@ -101,9 +101,9 @@ sensor:
             send_every: 60
   - platform: custom
     lambda: |-
-      auto sht20 = new SHT20();
-      App.register_component(sht20);
-      return {sht20->temperature_sensor, sht20->humidity_sensor, sht20->vpd_sensor, sht20->dew_point_sensor};
+      auto sht3x = new SHT3x();
+      App.register_component(sht3x);
+      return {sht3x->temperature_sensor, sht3x->humidity_sensor, sht3x->vpd_sensor, sht3x->dew_point_sensor};
     sensors:
       - name: "Temperature"
         id: sensor_temperature
@@ -204,3 +204,4 @@ display:
       it.printf(it.get_width() - 11, 165, id(font_roboto_medium22), WHITE, TextAlign::RIGHT, "%%");
       it.printf(it.get_width() - 11, 187, id(font_roboto_medium22), WHITE, TextAlign::RIGHT, "kPa");
       it.printf(it.get_width() - 11, 209, id(font_roboto_medium22), WHITE, TextAlign::RIGHT, "°C");
+      
