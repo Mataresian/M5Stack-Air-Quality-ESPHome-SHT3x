@@ -1,9 +1,9 @@
 #include "esphome.h"
-#include "uFire_SHT20.h"
+#include "Microfire_SHT3x.h"
 
-class SHT20 : public PollingComponent {
+class SHT3x : public PollingComponent {
  public:
-  uFire_SHT20 sht20;
+  Microfire_SHT3x sht3x;
   Sensor *temperature_sensor = new Sensor();
   Sensor *humidity_sensor = new Sensor();
   Sensor *vpd_sensor = new Sensor();
@@ -17,22 +17,22 @@ class SHT20 : public PollingComponent {
   SHT20() : PollingComponent(5000) { }
 
   void setup() override {
-    if(!sht20.begin()) {
-      ESP_LOGE("SHT20", "Sensor is not connected");
+    if(!sht3x.begin()) {
+      ESP_LOGE("SHT3x", "Sensor is not connected");
     }
   }
 
   void update() override {
-    float temperature = sht20.temperature();
+    float temperature = sht3x.temperature();
     temperature_sensor->publish_state(temperature);
 
-    int humidity = sht20.humidity();
+    int humidity = sht3x.humidity();
     humidity_sensor->publish_state(humidity);
 
-    int vpd = sht20.vpd();
+    int vpd = sht3x.vpd();
     vpd_sensor->publish_state(vpd);
 
-    int dew_point = sht20.dew_point();
+    int dew_point = sht3x.dew_point();
     dew_point_sensor->publish_state(dew_point);
 
   }
